@@ -1,0 +1,666 @@
+<sdf version='1.9'>
+<world name='empty'>
+<physics name="bullet_physics" type="bullet">
+    <max_step_size>0.001</max_step_size>
+    <real_time_factor>1.0</real_time_factor>
+    <real_time_update_rate>1000</real_time_update_rate>
+    <!-- 他の物理設定（必要に応じて） -->
+  </physics>
+
+    <plugin filename="gz-sim-forcetorque-system" name="gz::sim::systems::ForceTorque">
+    </plugin>
+    
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <pose>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>0 0 0 0 -0 0</pose>
+      <self_collide>false</self_collide>
+    </model>
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 -0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>-0.5 0.1 -0.9</direction>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.90000000000000002</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <!-- Table model -->
+    <model name='table'>
+      <static>true</static>
+      <pose>0 0.6 0.5 0 0 0</pose>
+      <link name='table_link'>
+        <collision name='table_collision'>
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.6</mu>
+                <mu2>0.6</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='table_visual'>
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.2 1</ambient>
+            <diffuse>0.6 0.4 0.2 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+        <inertial>
+          <mass>10</mass>
+          <inertia>
+            <ixx>1.25</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.25</iyy>
+            <iyz>0</iyz>
+            <izz>7</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>
+    <!-- Wood cube -->
+    <model name='wood_cube'>
+      <pose>-0.08 0.5 0.5525 0 0 0</pose>
+      <link name='wood_link'>
+        <collision name='wood_collision'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.6</mu>
+                <mu2>0.6</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wood_visual'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.5 0.3 1</ambient>
+            <diffuse>0.7 0.5 0.3 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+        <inertial>
+          <mass>0.0032</mass>
+          <inertia>
+            <ixx>1.066e-7</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.066e-7</iyy>
+            <iyz>0</iyz>
+            <izz>1.066e-7</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>
+    <!-- Aluminum cube -->
+    <model name='aluminum_cube'>
+      <pose>-0.04 0.5 0.5525 0 0 0</pose>
+      <link name='aluminum_link'>
+        <collision name='aluminum_collision'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='aluminum_visual'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+        <inertial>
+          <mass>0.0108</mass>
+          <inertia>
+            <ixx>3.6e-7</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>3.6e-7</iyy>
+            <iyz>0</iyz>
+            <izz>3.6e-7</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>
+    <!-- Copper cube -->
+    <model name='copper_cube'>
+      <pose>0 0.5 0.5525 0 0 0</pose>
+      <link name='copper_link'>
+        <collision name='copper_collision'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='copper_visual'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.2 1</ambient>
+            <diffuse>0.8 0.5 0.2 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+        <inertial>
+          <mass>0.03584</mass>
+          <inertia>
+            <ixx>1.194e-6</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.194e-6</iyy>
+            <iyz>0</iyz>
+            <izz>1.194e-6</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>
+    <!-- Iron cube -->
+    <model name='iron_cube'>
+      <pose>0.04 0.5 0.5525 0 0 0</pose>
+      <link name='iron_link'>
+        <collision name='iron_collision'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='iron_visual'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.4 0.4 0.4 1</specular>
+          </material>
+        </visual>
+        <inertial>
+          <mass>0.03144</mass>
+          <inertia>
+            <ixx>1.048e-6</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.048e-6</iyy>
+            <iyz>0</iyz>
+            <izz>1.048e-6</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>    
+    <!-- Plastic cube -->
+    <model name='plastic_cube'>
+      <pose>0.08 0.5 0.5525 0 0 0</pose>
+      <link name='plastic_link'>
+        <collision name='plastic_collision'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='plastic_visual'>
+          <geometry>
+            <box>
+              <size>0.02 0.02 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9 0.9 0.9 1</ambient>
+            <diffuse>0.9 0.9 0.9 1</diffuse>
+            <specular>0.3 0.3 0.3 1</specular>
+          </material>
+        </visual>
+        <inertial>
+          <mass>0.0088</mass>
+          <inertia>
+            <ixx>5.867e-7</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>5.867e-7</iyy>
+            <iyz>0</iyz>
+            <izz>5.867e-7</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>
+    <!-- 改良された人間モデル（DAEファイルなし） -->
+    <model name="human">
+    <pose>0 -1 0.9 0 0 0</pose>
+    <!-- 胴体 -->
+    <link name="torso">
+      <pose>0 0 1.0 0 0 0</pose>
+      <collision name="torso_collision">
+        <geometry>
+          <box>
+            <size>0.4 0.2 0.8</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.6</mu>
+              <mu2>0.6</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="torso_visual">
+        <geometry>
+          <box>
+            <size>0.4 0.2 0.8</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.7 0.6 0.5 1</ambient>
+          <diffuse>0.7 0.6 0.5 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>40</mass>
+        <inertia>
+          <ixx>1.6</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.6</iyy>
+          <iyz>0</iyz>
+          <izz>0.2</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <!-- 頭 -->
+    <link name="head">
+      <pose>0 0 1.5 0 0 0</pose>
+      <collision name="head_collision">
+        <geometry>
+          <sphere>
+            <radius>0.1</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.6</mu>
+              <mu2>0.6</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="head_visual">
+        <geometry>
+          <sphere>
+            <radius>0.1</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>0.9 0.8 0.7 1</ambient>
+          <diffuse>0.9 0.8 0.7 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.02</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.02</iyy>
+          <iyz>0</iyz>
+          <izz>0.02</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <!-- 右腕 -->
+    <link name="right_arm">
+      <pose>0.25 0 0.8 0 0 0</pose>
+      <collision name="right_arm_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.6</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.6</mu>
+              <mu2>0.6</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="right_arm_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.6</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.7 0.6 0.5 1</ambient>
+          <diffuse>0.7 0.6 0.5 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>4</mass>
+        <inertia>
+          <ixx>0.08</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.08</iyy>
+          <iyz>0</iyz>
+          <izz>0.01</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <!-- 左腕 -->
+    <link name="left_arm">
+      <pose>-0.25 0 0.8 0 0 0</pose>
+      <collision name="left_arm_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.6</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.6</mu>
+              <mu2>0.6</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="left_arm_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.6</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.7 0.6 0.5 1</ambient>
+          <diffuse>0.7 0.6 0.5 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>4</mass>
+        <inertia>
+          <ixx>0.08</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.08</iyy>
+          <iyz>0</iyz>
+          <izz>0.01</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <!-- 右脚 -->
+    <link name="right_leg">
+      <pose>0.1 0 0.3 0 0 0</pose>
+      <collision name="right_leg_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.08</radius>
+            <length>0.8</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.6</mu>
+              <mu2>0.6</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="right_leg_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.08</radius>
+            <length>0.8</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.7 0.6 0.5 1</ambient>
+          <diffuse>0.7 0.6 0.5 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>10</mass>
+        <inertia>
+          <ixx>0.32</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.32</iyy>
+          <iyz>0</iyz>
+          <izz>0.03</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <!-- 左脚 -->
+    <link name="left_leg">
+      <pose>-0.1 0 0.3 0 0 0</pose>
+      <collision name="left_leg_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.08</radius>
+            <length>0.8</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.6</mu>
+              <mu2>0.6</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="left_leg_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.08</radius>
+            <length>0.8</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.7 0.6 0.5 1</ambient>
+          <diffuse>0.7 0.6 0.5 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>10</mass>
+        <inertia>
+          <ixx>0.32</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.32</iyy>
+          <iyz>0</iyz>
+          <izz>0.03</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <!-- ジョイントでリンクを接続 -->
+    <joint name="torso_to_head" type="fixed">
+      <parent>torso</parent>
+      <child>head</child>
+      <pose>0 0 0.5 0 0 0</pose>
+    </joint>
+    <joint name="torso_to_right_arm" type="fixed">
+      <parent>torso</parent>
+      <child>right_arm</child>
+      <pose>0.25 0 -0.2 0 0 0</pose>
+    </joint>
+    <joint name="torso_to_left_arm" type="fixed">
+      <parent>torso</parent>
+      <child>left_arm</child>
+      <pose>-0.25 0 -0.2 0 0 0</pose>
+    </joint>
+    <joint name="torso_to_right_leg" type="fixed">
+      <parent>torso</parent>
+      <child>right_leg</child>
+      <pose>0.1 0 -0.7 0 0 0</pose>
+    </joint>
+    <joint name="torso_to_left_leg" type="fixed">
+      <parent>torso</parent>
+      <child>left_leg</child>
+      <pose>-0.1 0 -0.7 0 0 0</pose>
+    </joint>
+    </model>
+    <actor name="actor_walking">
+      <pose>-1.5 0 0 0 0 0</pose>
+      <skin>
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <scale>1.0</scale>
+      </skin>
+      <animation name="walk">
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+  </actor>
+  </world>
+</sdf>
