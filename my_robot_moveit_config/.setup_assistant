@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: my_robot_description
+    relative_path: urdf/robot.urdf.xacro
+  srdf:
+    relative_path: config/ur.srdf
+  package_settings:
+    author_name: tomoino
+    author_email: tomoino139@keio.jp
+    generated_timestamp: 1751951925

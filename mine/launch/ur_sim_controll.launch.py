@@ -150,8 +150,6 @@ def launch_setup(context, *args, **kwargs):
         condition=UnlessCondition(activate_joint_controller),
     )
 
-
-
     # GZ nodes
     gz_spawn_entity = Node(
         package="ros_gz_sim",
@@ -186,7 +184,7 @@ def launch_setup(context, *args, **kwargs):
         executable="parameter_bridge",
         arguments=[
             "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
-            "/ft_data@geometry_msgs/msg/WrenchStamped@ignition.msgs.Wrench"
+            "/ft_data@geometry_msgs/msg/WrenchStamped@ignition.msgs.Wrench",
         ],
         output="screen",
     )
@@ -256,7 +254,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "controllers_file",
             default_value=PathJoinSubstitution(
-                [FindPackageShare("my_robot_simulation"), "config", "controllers.yaml"]
+                [FindPackageShare("mine"), "config", "controllers.yaml"]
             ),
             description="Absolute path to YAML file with the controllers configuration.",
         )
@@ -280,7 +278,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "initial_joint_controller",
-            default_value="joint_trajectory_controller",
+            default_value="scaled_joint_trajectory_controller",
             description="Robot controller to start.",
         )
     )
@@ -288,7 +286,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "description_file",
             default_value=PathJoinSubstitution(
-                [FindPackageShare("my_robot_description"), "urdf", "robot.urdf.xacro"]
+                [FindPackageShare("mine"), "urdf", "ur_gz.urdf.xacro"]
             ),
             description="URDF/XACRO description file (absolute path) with the robot.",
         )
@@ -300,7 +298,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "rviz_config_file",
             default_value=PathJoinSubstitution(
-                [FindPackageShare("my_robot_simulation"), "rviz", "view.rviz"]
+                [FindPackageShare("ur_description"), "rviz", "view_robot.rviz"]
             ),
             description="Rviz config file (absolute path) to use when launching rviz.",
         )
@@ -313,7 +311,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "world_file",
-            default_value="/ros2_ws/src/my_packages/my_robot_simulation/worlds/my_world.sdf",
+            default_value="empty.sdf",
             description="Gazebo world file (absolute path or filename from the gazebosim worlds collection) containing a custom world.",
         )
     )
