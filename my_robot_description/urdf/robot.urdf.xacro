@@ -148,7 +148,7 @@
   </xacro:if>
   <!-- parameters -->
   <xacro:arg name="use_fake_hardware" default="true" />
-  <xacro:arg name="com_port" default="/dev/ttyUSB0" />
+  <xacro:arg name="com_port" default="/tmp/ttyUR" />
 
   <!-- Import macros -->
   <xacro:include filename="$(find my_robot_description)/urdf/robotiq_macro.urdf.xacro" />

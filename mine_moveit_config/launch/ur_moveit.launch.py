@@ -82,6 +82,7 @@ def declare_arguments():
                     "ur20",
                     "ur30",
                 ],
+                default_value="ur3e",
             ),
             DeclareLaunchArgument(
                 "warehouse_sqlite_path",
@@ -115,7 +116,7 @@ def generate_launch_description():
 
     moveit_config = (
         MoveItConfigsBuilder(robot_name="ur", package_name="mine_moveit_config")
-        .robot_description_semantic(Path("srdf") / "ur.srdf.xacro", {"name": ur_type})
+        .robot_description_semantic(Path("srdf") / "ur.srdf.xacro",{"name": ur_type})
         .to_moveit_configs()
     )
 
@@ -148,18 +149,18 @@ def generate_launch_description():
         ],
     )
 
-    servo_yaml = load_yaml("ur_moveit_config", "config/ur_servo.yaml")
-    servo_params = {"moveit_servo": servo_yaml}
-    servo_node = Node(
-        package="moveit_servo",
-        condition=IfCondition(launch_servo),
-        executable="servo_node",
-        parameters=[
-            moveit_config.to_dict(),
-            servo_params,
-        ],
-        output="screen",
-    )
+    # servo_yaml = load_yaml("mine_moveit_config", "config/ur_servo.yaml")
+    # servo_params = {"moveit_servo": servo_yaml}
+    # servo_node = Node(
+    #     package="moveit_servo",
+    #     condition=IfCondition(launch_servo),
+    #     executable="servo_node",
+    #     parameters=[
+    #         moveit_config.to_dict(),
+    #         servo_params,
+    #     ],
+    #     output="screen",
+    # )
 
     rviz_config_file = PathJoinSubstitution(
         [FindPackageShare("mine_moveit_config"), "config", "moveit.rviz"]
@@ -188,9 +189,9 @@ def generate_launch_description():
         RegisterEventHandler(
             OnProcessExit(
                 target_action=wait_robot_description,
-                on_exit=[move_group_node, rviz_node, servo_node],
+                on_exit=[move_group_node, rviz_node],
             )
         ),
     )
-
+# , servo_node
     return ld
