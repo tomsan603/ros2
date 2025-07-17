@@ -186,7 +186,8 @@ def launch_setup(context, *args, **kwargs):
         executable="parameter_bridge",
         arguments=[
             "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
-            "/ft_data@geometry_msgs/msg/WrenchStamped@ignition.msgs.Wrench"
+            "/ft_data@geometry_msgs/msg/WrenchStamped@ignition.msgs.Wrench",
+            "/camera@sensor_msgs/msg/Image@ignition.msgs.Image",
         ],
         output="screen",
     )

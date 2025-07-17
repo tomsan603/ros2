@@ -104,18 +104,18 @@
   />
 
   <!-- parameters -->
-  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="use_mock_hardware" default="false" />
   <xacro:arg name="com_port" default="/tmp/ttyUR" />
-  <xacro:arg name="sim_ignition" default="true" />
+  <xacro:arg name="sim_ignition" default="false" />
 
   <!-- Import macros -->
-  <xacro:include filename="$(find my_robot_description)/urdf/robotiq_macro.urdf.xacro" />
+  <xacro:include filename="$(find my_robot_bringup)/urdf/robotiq_macro.urdf.xacro" />
   <xacro:include filename="$(find my_robot_bringup)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
 
   <xacro:ur_to_robotiq tf_prefix=""  parent="tool0"  child="robotiq_gripper">
   </xacro:ur_to_robotiq>
 
-  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" tf_prefix=""  parent="ur_to_robotiq_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="$(arg com_port)" sim_ignition="$(arg sim_ignition)">
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" tf_prefix=""  parent="ur_to_robotiq_link" use_mock_hardware="$(arg use_mock_hardware)" com_port="$(arg com_port)" sim_ignition="$(arg sim_ignition)">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:robotiq_gripper>
 

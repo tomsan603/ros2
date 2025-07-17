@@ -301,7 +301,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "description_file",
             default_value=PathJoinSubstitution(
-                [FindPackageShare("my_robot_description"), "urdf", "robot.urdf.xacro"]
+                [FindPackageShare("my_robot_bringup"), "urdf", "ur_gripper.urdf.xacro"]
             ),
             description="URDF/XACRO description file with the robot.",
         )
